@@ -134,6 +134,9 @@ export const providers: Record<ProviderId, ProviderMetadata> = {
   openrouter: buildProviderMetadata('openrouter'),
   ollama: buildProviderMetadata('ollama'),
   bedrock: buildProviderMetadata('bedrock'),
+  'custom-openai': buildProviderMetadata('custom-openai'),
+  'custom-anthropic': buildProviderMetadata('custom-anthropic'),
+  'custom-google': buildProviderMetadata('custom-google'),
 }
 
 export function updateOllamaProviderModels(models: string[]): void {

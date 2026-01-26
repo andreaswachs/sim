@@ -61,4 +61,4 @@ export interface GeminiClientConfig {
 /**
  * Provider type for logging and model lookup
  */
-export type GeminiProviderType = 'google' | 'vertex'
+export type GeminiProviderType = 'google' | 'vertex' | 'custom-google'

@@ -1,7 +1,11 @@
 import { createLogger } from '@sim/logger'
 import { getApiKeyWithBYOK } from '@/lib/api-key/byok'
 import { getCostMultiplier } from '@/lib/core/config/feature-flags'
+import { getCustomEndpointByName } from '@/lib/custom-llm/endpoints'
 import type { StreamingExecution } from '@/executor/types'
+import { parseCustomAnthropicModel } from '@/providers/custom-anthropic'
+import { parseCustomGoogleModel } from '@/providers/custom-google'
+import { parseCustomOpenAIModel } from '@/providers/custom-openai'
 import { getProviderExecutor } from '@/providers/registry'
 import type { ProviderId, ProviderRequest, ProviderResponse } from '@/providers/types'
 import {
@@ -53,7 +57,101 @@ export async function executeProviderRequest(
   let resolvedRequest = sanitizeRequest(request)
   let isBYOK = false
 
-  if (request.workspaceId) {
+  // Handle custom endpoint resolution
+  if (providerId === 'custom-openai' && request.workspaceId) {
+    const { endpointName } = parseCustomOpenAIModel(request.model)
+    if (endpointName) {
+      try {
+        const endpointConfig = await getCustomEndpointByName(request.workspaceId, endpointName)
+        if (!endpointConfig) {
+          throw new Error(
+            `Custom LLM endpoint "${endpointName}" not found. Please configure it in workspace settings.`
+          )
+        }
+        resolvedRequest = {
+          ...resolvedRequest,
+          customOpenaiBaseUrl: endpointConfig.baseUrl,
+          customOpenaiEndpointName: endpointConfig.name,
+          customOpenaiHeaders: endpointConfig.headers || undefined,
+          apiKey: endpointConfig.apiKey || 'empty',
+        }
+        logger.info(`Resolved custom-openai endpoint: ${endpointName}`, {
+          baseUrl: endpointConfig.baseUrl,
+          hasApiKey: !!endpointConfig.apiKey,
+          headerCount: endpointConfig.headers ? Object.keys(endpointConfig.headers).length : 0,
+        })
+      } catch (error) {
+        logger.error('Failed to resolve custom LLM endpoint:', {
+          endpointName,
+          workspaceId: request.workspaceId,
+          error: error instanceof Error ? error.message : String(error),
+        })
+        throw error
+      }
+    }
+  } else if (providerId === 'custom-anthropic' && request.workspaceId) {
+    const { endpointName } = parseCustomAnthropicModel(request.model)
+    if (endpointName) {
+      try {
+        const endpointConfig = await getCustomEndpointByName(request.workspaceId, endpointName)
+        if (!endpointConfig) {
+          throw new Error(
+            `Custom LLM endpoint "${endpointName}" not found. Please configure it in workspace settings.`
+          )
+        }
+        resolvedRequest = {
+          ...resolvedRequest,
+          customAnthropicBaseUrl: endpointConfig.baseUrl,
+          customAnthropicEndpointName: endpointConfig.name,
+          customAnthropicHeaders: endpointConfig.headers || undefined,
+          apiKey: endpointConfig.apiKey || 'empty',
+        }
+        logger.info(`Resolved custom-anthropic endpoint: ${endpointName}`, {
+          baseUrl: endpointConfig.baseUrl,
+          hasApiKey: !!endpointConfig.apiKey,
+          headerCount: endpointConfig.headers ? Object.keys(endpointConfig.headers).length : 0,
+        })
+      } catch (error) {
+        logger.error('Failed to resolve custom LLM endpoint:', {
+          endpointName,
+          workspaceId: request.workspaceId,
+          error: error instanceof Error ? error.message : String(error),
+        })
+        throw error
+      }
+    }
+  } else if (providerId === 'custom-google' && request.workspaceId) {
+    const { endpointName } = parseCustomGoogleModel(request.model)
+    if (endpointName) {
+      try {
+        const endpointConfig = await getCustomEndpointByName(request.workspaceId, endpointName)
+        if (!endpointConfig) {
+          throw new Error(
+            `Custom LLM endpoint "${endpointName}" not found. Please configure it in workspace settings.`
+          )
+        }
+        resolvedRequest = {
+          ...resolvedRequest,
+          customGoogleBaseUrl: endpointConfig.baseUrl,
+          customGoogleEndpointName: endpointConfig.name,
+          customGoogleHeaders: endpointConfig.headers || undefined,
+          apiKey: endpointConfig.apiKey || 'empty',
+        }
+        logger.info(`Resolved custom-google endpoint: ${endpointName}`, {
+          baseUrl: endpointConfig.baseUrl,
+          hasApiKey: !!endpointConfig.apiKey,
+          headerCount: endpointConfig.headers ? Object.keys(endpointConfig.headers).length : 0,
+        })
+      } catch (error) {
+        logger.error('Failed to resolve custom LLM endpoint:', {
+          endpointName,
+          workspaceId: request.workspaceId,
+          error: error instanceof Error ? error.message : String(error),
+        })
+        throw error
+      }
+    }
+  } else if (request.workspaceId) {
     try {
       const result = await getApiKeyWithBYOK(
         providerId,

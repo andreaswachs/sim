@@ -3,6 +3,9 @@ import { anthropicProvider } from '@/providers/anthropic'
 import { azureOpenAIProvider } from '@/providers/azure-openai'
 import { bedrockProvider } from '@/providers/bedrock'
 import { cerebrasProvider } from '@/providers/cerebras'
+import { customAnthropicProvider } from '@/providers/custom-anthropic'
+import { customGoogleProvider } from '@/providers/custom-google'
+import { customOpenAIProvider } from '@/providers/custom-openai'
 import { deepseekProvider } from '@/providers/deepseek'
 import { googleProvider } from '@/providers/google'
 import { groqProvider } from '@/providers/groq'
@@ -32,6 +35,9 @@ const providerRegistry: Record<ProviderId, ProviderConfig> = {
   openrouter: openRouterProvider,
   ollama: ollamaProvider,
   bedrock: bedrockProvider,
+  'custom-openai': customOpenAIProvider,
+  'custom-anthropic': customAnthropicProvider,
+  'custom-google': customGoogleProvider,
 }
 
 export async function getProviderExecutor(

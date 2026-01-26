@@ -13,8 +13,10 @@ import {
   AzureIcon,
   BedrockIcon,
   CerebrasIcon,
+  CustomOpenAIIcon,
   DeepseekIcon,
   GeminiIcon,
+  GoogleIcon,
   GroqIcon,
   MistralIcon,
   OllamaIcon,
@@ -2034,6 +2036,48 @@ export const PROVIDER_DEFINITIONS: Record<string, ProviderDefinition> = {
         contextWindow: 128000,
       },
     ],
+  },
+  'custom-openai': {
+    id: 'custom-openai',
+    name: 'Custom OpenAI',
+    description: 'Custom OpenAI-compatible endpoints (vLLM, LocalAI, Ollama, etc.)',
+    defaultModel: '',
+    modelPatterns: [/^custom-openai:/],
+    icon: CustomOpenAIIcon,
+    capabilities: {
+      temperature: { min: 0, max: 2 },
+      toolUsageControl: true,
+    },
+    contextInformationAvailable: false,
+    models: [], // User-typed models
+  },
+  'custom-anthropic': {
+    id: 'custom-anthropic',
+    name: 'Custom Anthropic',
+    description: 'Custom Anthropic-compatible endpoints',
+    defaultModel: '',
+    modelPatterns: [/^custom-anthropic:/],
+    icon: AnthropicIcon,
+    capabilities: {
+      temperature: { min: 0, max: 1 },
+      toolUsageControl: true,
+    },
+    contextInformationAvailable: false,
+    models: [], // User-typed models
+  },
+  'custom-google': {
+    id: 'custom-google',
+    name: 'Custom Google',
+    description: 'Custom Google Gemini-compatible endpoints',
+    defaultModel: '',
+    modelPatterns: [/^custom-google:/],
+    icon: GoogleIcon,
+    capabilities: {
+      temperature: { min: 0, max: 2 },
+      toolUsageControl: true,
+    },
+    contextInformationAvailable: false,
+    models: [], // User-typed models
   },
 }
 

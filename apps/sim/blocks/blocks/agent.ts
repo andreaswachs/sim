@@ -135,8 +135,15 @@ Return ONLY the JSON array.`,
         const ollamaModels = providersState.providers.ollama.models
         const vllmModels = providersState.providers.vllm.models
         const openrouterModels = providersState.providers.openrouter.models
+        const customOpenaiEndpoints = providersState.providers['custom-openai'].models
         const allModels = Array.from(
-          new Set([...baseModels, ...ollamaModels, ...vllmModels, ...openrouterModels])
+          new Set([
+            ...baseModels,
+            ...ollamaModels,
+            ...vllmModels,
+            ...openrouterModels,
+            ...customOpenaiEndpoints,
+          ])
         )
 
         return allModels.map((model) => {

@@ -15,6 +15,11 @@ export type ProviderId =
   | 'openrouter'
   | 'vllm'
   | 'bedrock'
+  | 'custom-openai'
+  | 'custom-anthropic'
+  | 'custom-google'
+
+export type CustomLlmApiType = 'openai' | 'anthropic' | 'google'
 
 export interface ModelPricing {
   input: number // Per 1M tokens
@@ -168,6 +173,15 @@ export interface ProviderRequest {
   verbosity?: string
   thinkingLevel?: string
   isDeployedContext?: boolean
+  customOpenaiBaseUrl?: string
+  customOpenaiEndpointName?: string
+  customOpenaiHeaders?: Record<string, string>
+  customAnthropicBaseUrl?: string
+  customAnthropicEndpointName?: string
+  customAnthropicHeaders?: Record<string, string>
+  customGoogleBaseUrl?: string
+  customGoogleEndpointName?: string
+  customGoogleHeaders?: Record<string, string>
 }
 
 export const providers: Record<string, ProviderConfig> = {}

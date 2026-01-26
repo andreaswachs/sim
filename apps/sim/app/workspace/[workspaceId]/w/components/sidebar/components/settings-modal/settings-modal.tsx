@@ -46,6 +46,7 @@ import {
   BYOK,
   Copilot,
   CredentialSets,
+  CustomLlm,
   CustomTools,
   Debug,
   EnvironmentVariables,
@@ -85,6 +86,7 @@ type SettingsSection =
   | 'access-control'
   | 'apikeys'
   | 'byok'
+  | 'custom-llm'
   | 'files'
   | 'subscription'
   | 'team'
@@ -165,6 +167,12 @@ const allNavigationItems: NavigationItem[] = [
     icon: KeySquare,
     section: 'system',
     requiresHosted: true,
+  },
+  {
+    id: 'custom-llm',
+    label: 'Custom LLMs',
+    icon: Server,
+    section: 'system',
   },
   {
     id: 'copilot',
@@ -562,6 +570,7 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
             {isBillingEnabled && activeSection === 'team' && <TeamManagement />}
             {activeSection === 'sso' && <SSO />}
             {activeSection === 'byok' && <BYOK />}
+            {activeSection === 'custom-llm' && <CustomLlm />}
             {activeSection === 'copilot' && <Copilot />}
             {activeSection === 'mcp' && <MCP initialServerId={pendingMcpServerId} />}
             {activeSection === 'custom-tools' && <CustomTools />}

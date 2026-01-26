@@ -443,6 +443,31 @@ export const workspaceBYOKKeys = pgTable(
   })
 )
 
+export const customLlmEndpoints = pgTable(
+  'custom_llm_endpoints',
+  {
+    id: text('id').primaryKey(),
+    workspaceId: text('workspace_id')
+      .notNull()
+      .references(() => workspace.id, { onDelete: 'cascade' }),
+    name: text('name').notNull(),
+    baseUrl: text('base_url').notNull(),
+    encryptedApiKey: text('encrypted_api_key'),
+    encryptedHeaders: text('encrypted_headers'),
+    apiType: text('api_type').notNull().default('openai'), // 'openai' | 'anthropic' | 'google'
+    createdBy: text('created_by').references(() => user.id, { onDelete: 'set null' }),
+    createdAt: timestamp('created_at').notNull().defaultNow(),
+    updatedAt: timestamp('updated_at').notNull().defaultNow(),
+  },
+  (table) => ({
+    workspaceNameUnique: uniqueIndex('custom_llm_endpoint_workspace_name').on(
+      table.workspaceId,
+      table.name
+    ),
+    workspaceIdx: index('custom_llm_endpoint_workspace_idx').on(table.workspaceId),
+  })
+)
+
 export const settings = pgTable('settings', {
   id: text('id').primaryKey(), // Use the user id as the key
   userId: text('user_id')

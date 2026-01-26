@@ -10,6 +10,9 @@ export const useProvidersStore = create<ProvidersStore>((set, get) => ({
     ollama: { models: [], isLoading: false },
     vllm: { models: [], isLoading: false },
     openrouter: { models: [], isLoading: false },
+    'custom-openai': { models: [], isLoading: false },
+    'custom-anthropic': { models: [], isLoading: false },
+    'custom-google': { models: [], isLoading: false },
   },
   openRouterModelInfo: {},
 

@@ -4,7 +4,9 @@ import type { OpenRouterModelInfo, ProviderName } from '@/stores/providers'
 
 const logger = createLogger('ProviderModelsQuery')
 
-const providerEndpoints: Record<ProviderName, string> = {
+type FetchableProvider = Exclude<ProviderName, 'custom-openai' | 'custom-anthropic' | 'custom-google'>
+
+const providerEndpoints: Record<FetchableProvider, string> = {
   base: '/api/providers/base/models',
   ollama: '/api/providers/ollama/models',
   vllm: '/api/providers/vllm/models',
@@ -16,7 +18,7 @@ interface ProviderModelsResponse {
   modelInfo?: Record<string, OpenRouterModelInfo>
 }
 
-async function fetchProviderModels(provider: ProviderName): Promise<ProviderModelsResponse> {
+async function fetchProviderModels(provider: FetchableProvider): Promise<ProviderModelsResponse> {
   const response = await fetch(providerEndpoints[provider])
 
   if (!response.ok) {
@@ -37,7 +39,7 @@ async function fetchProviderModels(provider: ProviderName): Promise<ProviderMode
   }
 }
 
-export function useProviderModels(provider: ProviderName) {
+export function useProviderModels(provider: FetchableProvider) {
   return useQuery({
     queryKey: ['provider-models', provider],
     queryFn: () => fetchProviderModels(provider),

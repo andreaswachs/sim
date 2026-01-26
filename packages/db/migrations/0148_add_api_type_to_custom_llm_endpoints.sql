@@ -1,0 +1,1 @@
+ALTER TABLE "custom_llm_endpoints" ADD COLUMN "api_type" text DEFAULT 'openai' NOT NULL;
