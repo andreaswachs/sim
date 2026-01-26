@@ -1,4 +1,11 @@
-export type ProviderName = 'ollama' | 'vllm' | 'openrouter' | 'base' | 'custom-openai' | 'custom-anthropic' | 'custom-google'
+export type ProviderName =
+  | 'ollama'
+  | 'vllm'
+  | 'openrouter'
+  | 'base'
+  | 'custom-openai'
+  | 'custom-anthropic'
+  | 'custom-google'
 
 export interface OpenRouterModelInfo {
   id: string

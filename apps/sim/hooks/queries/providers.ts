@@ -4,7 +4,10 @@ import type { OpenRouterModelInfo, ProviderName } from '@/stores/providers'
 
 const logger = createLogger('ProviderModelsQuery')
 
-type FetchableProvider = Exclude<ProviderName, 'custom-openai' | 'custom-anthropic' | 'custom-google'>
+type FetchableProvider = Exclude<
+  ProviderName,
+  'custom-openai' | 'custom-anthropic' | 'custom-google'
+>
 
 const providerEndpoints: Record<FetchableProvider, string> = {
   base: '/api/providers/base/models',

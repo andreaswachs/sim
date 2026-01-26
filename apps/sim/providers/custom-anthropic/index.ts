@@ -184,7 +184,9 @@ JSON Schema:
 ${JSON.stringify(schema, null, 2)}
 
 Your response must be valid JSON that exactly matches this schema structure.`
-      payload.system = payload.system ? `${payload.system}\n\n${schemaInstructions}` : schemaInstructions
+      payload.system = payload.system
+        ? `${payload.system}\n\n${schemaInstructions}`
+        : schemaInstructions
       logger.info('Using prompt-based structured outputs for custom Anthropic endpoint')
     }
 
@@ -459,11 +461,7 @@ Your response must be valid JSON that exactly matches this schema structure.`
           messages: currentMessages,
         }
 
-        if (
-          typeof originalToolChoice === 'object' &&
-          hasUsedForcedTool &&
-          forcedTools.length > 0
-        ) {
+        if (typeof originalToolChoice === 'object' && hasUsedForcedTool && forcedTools.length > 0) {
           const remainingTools = forcedTools.filter((tool) => !usedForcedTools.includes(tool))
 
           if (remainingTools.length > 0) {

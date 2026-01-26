@@ -14,7 +14,10 @@ import { type ProviderName, useProvidersStore } from '@/stores/providers'
 
 const logger = createLogger('ProviderModelsLoader')
 
-type FetchableProvider = Exclude<ProviderName, 'custom-openai' | 'custom-anthropic' | 'custom-google'>
+type FetchableProvider = Exclude<
+  ProviderName,
+  'custom-openai' | 'custom-anthropic' | 'custom-google'
+>
 
 function useSyncProvider(provider: FetchableProvider) {
   const setProviderModels = useProvidersStore((state) => state.setProviderModels)
