@@ -23,6 +23,7 @@ import {
   VertexIcon,
   VllmIcon,
   xAIIcon,
+  ZAIIcon,
 } from '@/components/icons'
 import type { ModelPricing } from '@/providers/types'
 
@@ -1109,6 +1110,44 @@ export const PROVIDER_DEFINITIONS: Record<string, ProviderDefinition> = {
           temperature: { min: 0, max: 1 },
         },
         contextWindow: 131072,
+      },
+    ],
+  },
+  zai: {
+    id: 'zai',
+    name: 'Z.AI',
+    description: "Z.AI's GLM models",
+    defaultModel: 'glm-4.7',
+    modelPatterns: [/^glm-4\.7/],
+    icon: ZAIIcon,
+    capabilities: {
+      temperature: { min: 0, max: 2 },
+      toolUsageControl: true,
+    },
+    models: [
+      {
+        id: 'glm-4.7',
+        pricing: {
+          input: 0.4,
+          output: 1.5,
+          updatedAt: '2025-01-29',
+        },
+        capabilities: {
+          temperature: { min: 0, max: 2 },
+        },
+        contextWindow: 200000,
+      },
+      {
+        id: 'glm-4.7-flash',
+        pricing: {
+          input: 0,
+          output: 0,
+          updatedAt: '2025-01-29',
+        },
+        capabilities: {
+          temperature: { min: 0, max: 2 },
+        },
+        contextWindow: 200000,
       },
     ],
   },

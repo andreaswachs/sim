@@ -8,6 +8,7 @@ export type ProviderId =
   | 'vertex'
   | 'deepseek'
   | 'xai'
+  | 'zai'
   | 'cerebras'
   | 'groq'
   | 'mistral'

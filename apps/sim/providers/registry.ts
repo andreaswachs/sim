@@ -14,6 +14,7 @@ import type { ProviderConfig, ProviderId } from '@/providers/types'
 import { vertexProvider } from '@/providers/vertex'
 import { vllmProvider } from '@/providers/vllm'
 import { xAIProvider } from '@/providers/xai'
+import { zaiProvider } from '@/providers/zai'
 
 const logger = createLogger('ProviderRegistry')
 
@@ -24,6 +25,7 @@ const providerRegistry: Record<ProviderId, ProviderConfig> = {
   vertex: vertexProvider,
   deepseek: deepseekProvider,
   xai: xAIProvider,
+  zai: zaiProvider,
   cerebras: cerebrasProvider,
   groq: groqProvider,
   vllm: vllmProvider,
